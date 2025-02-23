@@ -13,6 +13,18 @@
     </extensions>
 
     <applicationListeners>
-        <listener class="net.agiledeveloper.breakline.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
+        <listener
+                class="net.agiledeveloper.breakline.listeners.MyApplicationActivationListener"
+                topic="com.intellij.openapi.application.ApplicationActivationListener"
+        />
     </applicationListeners>
+
+    <actions>
+        <action
+                id="net.agiledeveloper.SplitLineAction"
+                class="net.agiledeveloper.breakline.SplitLineAction"
+                text="SplitLineAction"
+                description="Splits a line into multiple lines"
+        />
+    </actions>
 </idea-plugin>
