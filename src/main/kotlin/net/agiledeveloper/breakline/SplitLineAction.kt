@@ -9,9 +9,9 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
+import net.agiledeveloper.breakline.splitters.ArgumentSplitter
 import net.agiledeveloper.breakline.splitters.Characters.FOUR_SPACES
 import net.agiledeveloper.breakline.splitters.Characters.TAB
-import net.agiledeveloper.breakline.splitters.DeclarationSplitter
 import net.agiledeveloper.breakline.splitters.Pair
 import net.agiledeveloper.breakline.splitters.Splitter
 
@@ -23,7 +23,7 @@ class SplitLineAction : AnAction() {
         Pair('[', ']')
     )
 
-    private val splitter: Splitter = DeclarationSplitter(supportedPairs)
+    private val splitter: Splitter = ArgumentSplitter(supportedPairs)
 
     override fun actionPerformed(e: AnActionEvent) {
         val editor = e.getData(CommonDataKeys.EDITOR)

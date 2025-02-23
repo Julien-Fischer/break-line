@@ -1,11 +1,11 @@
 package net.agiledeveloper.breakline
 
-import net.agiledeveloper.breakline.splitters.DeclarationSplitter
+import net.agiledeveloper.breakline.splitters.ArgumentSplitter
 import net.agiledeveloper.breakline.splitters.Pair
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class DeclarationSplitterTest {
+class ArgumentSplitterTest {
 
     private val testPairs = listOf(
         Pair('(', ')'),
@@ -13,7 +13,7 @@ class DeclarationSplitterTest {
         Pair('[', ']')
     )
 
-    private val splitter = DeclarationSplitter(testPairs)
+    private val splitter = ArgumentSplitter(testPairs)
 
     @Test
     fun list_initialization_is_split_across_multiple_lines() {

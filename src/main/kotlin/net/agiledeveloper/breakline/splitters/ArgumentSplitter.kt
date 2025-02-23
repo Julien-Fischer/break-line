@@ -3,7 +3,7 @@ package net.agiledeveloper.breakline.splitters
 import net.agiledeveloper.breakline.splitters.Characters.NEW_LINE
 import net.agiledeveloper.breakline.splitters.Characters.SINGLE_SPACE
 
-class DeclarationSplitter(
+class ArgumentSplitter(
     private val syntax: SplitterSyntax
 ) : Splitter {
 
