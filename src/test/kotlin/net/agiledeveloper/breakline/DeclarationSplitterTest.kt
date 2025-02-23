@@ -3,7 +3,7 @@ package net.agiledeveloper.breakline
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-class SplitLineActionTest {
+class DeclarationSplitterTest {
 
     private val testPairs = listOf(
         Pair('(', ')'),
@@ -11,7 +11,7 @@ class SplitLineActionTest {
         Pair('[', ']')
     )
 
-    private val lineSplitter = LineSplitter(testPairs)
+    private val splitter = DeclarationSplitter(testPairs)
 
     @Test
     fun list_initialization_is_split_across_multiple_lines() {
@@ -21,7 +21,7 @@ class SplitLineActionTest {
     b,
     c
 )"""
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -36,7 +36,7 @@ class SplitLineActionTest {
     c
 }"""
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -49,7 +49,7 @@ class SplitLineActionTest {
 
 ) {"""
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -64,7 +64,7 @@ class SplitLineActionTest {
     Object c
 ) throws IOException {"""
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -77,7 +77,7 @@ class SplitLineActionTest {
 
 )""".trimIndent()
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -90,7 +90,7 @@ class SplitLineActionTest {
 
 }"""
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -103,7 +103,7 @@ class SplitLineActionTest {
     a
 )"""
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -116,7 +116,7 @@ class SplitLineActionTest {
     a
 }""".trimIndent()
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -131,7 +131,7 @@ class SplitLineActionTest {
         c
     )"""
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -177,7 +177,7 @@ class SplitLineActionTest {
     c
 )"""
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -191,7 +191,7 @@ class SplitLineActionTest {
     3
 }"""
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)
@@ -206,7 +206,7 @@ class SplitLineActionTest {
     Set.of("foo", "bar", "baz")
 );"""
 
-        val output: String = lineSplitter.splitLineByComma(input)
+        val output: String = splitter.split(input)
 
         assertThat(output)
             .isEqualTo(expected)

@@ -20,7 +20,7 @@ class SplitLineAction : AnAction() {
         Pair('[', ']')
     )
 
-    private val splitter: LineSplitter = LineSplitter(supportedPairs)
+    private val splitter: Splitter = DeclarationSplitter(supportedPairs)
 
     override fun actionPerformed(e: AnActionEvent) {
         val editor = e.getData(CommonDataKeys.EDITOR)
@@ -39,7 +39,7 @@ class SplitLineAction : AnAction() {
 
         val userIndentation: String = getUserPreferredIndentation(editor, project)
 
-        val formatted = splitter.splitLineByComma(lineText, userIndentation)
+        val formatted = splitter.split(lineText, userIndentation)
 
         ApplicationManager.getApplication().runWriteAction {
             document.replaceString(lineStart, lineEnd, formatted)

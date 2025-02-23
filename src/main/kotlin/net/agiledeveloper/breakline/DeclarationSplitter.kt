@@ -1,18 +1,13 @@
 package net.agiledeveloper.breakline
 
-import net.agiledeveloper.breakline.Characters.FOUR_SPACES
 import net.agiledeveloper.breakline.Characters.NEW_LINE
 import net.agiledeveloper.breakline.Characters.SINGLE_SPACE
 
-class LineSplitter(
+class DeclarationSplitter(
     private val supportedPairs: List<Pair>
-) {
+) : Splitter {
 
-    fun splitLineByComma(lineText: String): String {
-        return splitLineByComma(lineText, FOUR_SPACES)
-    }
-
-    fun splitLineByComma(lineText: String, indentation: String): String {
+    override fun split(lineText: String, indentation: String): String {
         val pair: Pair? = detectPair(lineText)
 
         println("using pair %s".format(pair))
