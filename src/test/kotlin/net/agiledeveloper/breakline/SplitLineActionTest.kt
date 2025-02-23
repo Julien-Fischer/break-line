@@ -163,4 +163,47 @@ class SplitLineActionTest {
             .isEqualTo(input)
     }
 
+    @Test
+    fun nested_lists_are_split_across_multiple_lines() {
+        val input = "List.of(List.of(a, b), c)"
+        val expected = """List.of(
+    List.of(a, b),
+    c
+)"""
+
+        val output: String = action.splitLineByComma(input)
+
+        assertThat(output)
+            .isEqualTo(expected)
+    }
+
+    @Test
+    fun nested_arrays_are_split_across_multiple_lines() {
+        val input = "new Object[] {new int[] {1, 2}, 3}"
+        val expected = """new Object[] {
+    new int[] {1, 2},
+    3
+}"""
+
+        val output: String = action.splitLineByComma(input)
+
+        assertThat(output)
+            .isEqualTo(expected)
+    }
+
+    @Test
+    fun nested_sets_are_split_across_multiple_lines() {
+        val input = """var nestedSets = Set.of(Set.of("foo", "bar", "baz"), Set.of("foo", "bar", "baz"), Set.of("foo", "bar", "baz"));"""
+        val expected = """var nestedSets = Set.of(
+    Set.of("foo", "bar", "baz"),
+    Set.of("foo", "bar", "baz"),
+    Set.of("foo", "bar", "baz")
+);"""
+
+        val output: String = action.splitLineByComma(input)
+
+        assertThat(output)
+            .isEqualTo(expected)
+    }
+
 }

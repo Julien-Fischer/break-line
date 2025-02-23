@@ -19,6 +19,12 @@ class SplitLineAction : AnAction() {
         private const val TAB          = '\t'
     }
 
+    private val supportedPairs = listOf(
+        Pair('(', ')'),
+        Pair('{', '}'),
+        Pair('[', ']')
+    )
+
     override fun actionPerformed(e: AnActionEvent) {
         val editor = e.getData(CommonDataKeys.EDITOR)
         val project = e.project
@@ -66,7 +72,7 @@ class SplitLineAction : AnAction() {
             val insideParenthesis = lineText.substring(openParenIndex + 1, closeParenIndex).trim { it <= SINGLE_SPACE }
             val afterParenthesis  = lineText.substring(closeParenIndex).trim { it <= SINGLE_SPACE }
 
-            val parts = insideParenthesis.split(", ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val parts = splitPartsWithNesting(insideParenthesis)
             val result = StringBuilder()
 
             result
@@ -95,7 +101,42 @@ class SplitLineAction : AnAction() {
         return lineText
     }
 
-    private fun removeLastTwoCharactersAfterLastPart(result: StringBuilder, parts: Array<String>) {
+    private fun splitPartsWithNesting(text: String): List<String> {
+        val parts = mutableListOf<String>()
+        var currentPart = StringBuilder()
+        var depth = 0
+        var inQuotes = false
+
+        for (char in text) {
+            when {
+                char == '"' -> inQuotes = !inQuotes
+                !inQuotes && isOpeningChar(char) -> depth++
+                !inQuotes && isClosingChar(char) -> depth--
+                !inQuotes && char == ',' && depth == 0 -> {
+                    parts.add(currentPart.toString().trim())
+                    currentPart = StringBuilder()
+                    continue
+                }
+            }
+            currentPart.append(char)
+        }
+
+        if (currentPart.isNotEmpty()) {
+            parts.add(currentPart.toString().trim())
+        }
+
+        return parts
+    }
+
+    private fun isOpeningChar(char: Char): Boolean {
+        return supportedPairs.any { it.opening == char }
+    }
+
+    private fun isClosingChar(char: Char): Boolean {
+        return supportedPairs.any { it.closing == char }
+    }
+
+    private fun removeLastTwoCharactersAfterLastPart(result: StringBuilder, parts: List<String>) {
         if (result.isNotEmpty() && parts.isNotEmpty()) {
             result.setLength(result.length - 2)
         }
@@ -129,13 +170,7 @@ class SplitLineAction : AnAction() {
     }
 
     private fun detectPair(text: String): Pair? {
-        val pairs = listOf(
-            Pair('(', ')'),
-            Pair('{', '}'),
-            Pair('[', ']')
-        )
-
-        for (pair in pairs) {
+        for (pair in supportedPairs) {
             if (text.contains(pair.opening) && text.contains(pair.closing)) {
                 return pair
             }
