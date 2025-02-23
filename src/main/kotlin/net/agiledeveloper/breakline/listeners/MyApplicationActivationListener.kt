@@ -1,4 +1,4 @@
-package com.github.julienfischer.breakline.listeners
+package net.agiledeveloper.breakline.listeners
 
 import com.intellij.openapi.application.ApplicationActivationListener
 import com.intellij.openapi.diagnostic.thisLogger

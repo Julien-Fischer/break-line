@@ -1,9 +1,9 @@
-package com.github.julienfischer.breakline.services
+package net.agiledeveloper.breakline.services
 
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
-import com.github.julienfischer.breakline.MyBundle
+import net.agiledeveloper.breakline.MyBundle
 
 @Service(Service.Level.PROJECT)
 class MyProjectService(project: Project) {

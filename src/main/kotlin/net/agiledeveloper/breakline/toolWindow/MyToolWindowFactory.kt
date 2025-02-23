@@ -1,4 +1,4 @@
-package com.github.julienfischer.breakline.toolWindow
+package net.agiledeveloper.breakline.toolWindow
 
 import com.intellij.openapi.components.service
 import com.intellij.openapi.diagnostic.thisLogger
@@ -8,8 +8,8 @@ import com.intellij.openapi.wm.ToolWindowFactory
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBPanel
 import com.intellij.ui.content.ContentFactory
-import com.github.julienfischer.breakline.MyBundle
-import com.github.julienfischer.breakline.services.MyProjectService
+import net.agiledeveloper.breakline.MyBundle
+import net.agiledeveloper.breakline.services.MyProjectService
 import javax.swing.JButton
 
 

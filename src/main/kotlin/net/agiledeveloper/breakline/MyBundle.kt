@@ -1,4 +1,4 @@
-package com.github.julienfischer.breakline
+package net.agiledeveloper.breakline
 
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.NonNls
