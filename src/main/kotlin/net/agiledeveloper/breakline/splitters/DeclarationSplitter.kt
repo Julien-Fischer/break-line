@@ -17,22 +17,22 @@ class DeclarationSplitter(
 
         if (pair != null) {
             val openParenIndex = lineText.indexOf(pair.opening)
-            val closeParenIndex = findMatchingParenthesis(lineText, openParenIndex, pair)
+            val closeParenIndex = findMatchingCharacter(lineText, openParenIndex, pair)
 
             if (isMalformedInput(closeParenIndex)) {
                 return lineText
             }
 
-            val beforeParenthesis = lineText.substring(0, openParenIndex + 1).trim { it <= SINGLE_SPACE }
-            val insideParenthesis = lineText.substring(openParenIndex + 1, closeParenIndex).trim { it <= SINGLE_SPACE }
-            val afterParenthesis  = lineText.substring(closeParenIndex).trim { it <= SINGLE_SPACE }
+            val before = lineText.substring(0, openParenIndex + 1).trim { it <= SINGLE_SPACE }
+            val inside = lineText.substring(openParenIndex + 1, closeParenIndex).trim { it <= SINGLE_SPACE }
+            val after  = lineText.substring(closeParenIndex).trim { it <= SINGLE_SPACE }
 
-            val parts = splitPartsWithNesting(insideParenthesis)
+            val parts = splitPartsWithNesting(inside)
             val result = StringBuilder()
 
             result
                 .append(leadingWhitespace)
-                .append(beforeParenthesis)
+                .append(before)
                 .append(NEW_LINE)
 
             for (part in parts) {
@@ -48,7 +48,7 @@ class DeclarationSplitter(
             result
                 .append(NEW_LINE)
                 .append(leadingWhitespace)
-                .append(afterParenthesis)
+                .append(after)
 
             return result.toString()
         }
@@ -93,7 +93,7 @@ class DeclarationSplitter(
         return closeParenIndex == -1
     }
 
-    private fun findMatchingParenthesis(text: String, openIndex: Int, pair: Pair): Int {
+    private fun findMatchingCharacter(text: String, openIndex: Int, pair: Pair): Int {
         var depth = 0
         for (i in openIndex..<text.length) {
             val c = text[i]
