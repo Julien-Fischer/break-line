@@ -33,6 +33,12 @@ How to Use
 - Right-click and choose "<b>Split Line</b>" from the context menu.</li>
 - The plugin will reformat the line into multiple indented lines.</li>
 
+Language support
+
+- Java
+
+If you wish to add more language support, please open an issue or a PR
+
 Examples
 
 Input
