@@ -1,4 +1,4 @@
-package net.agiledeveloper.breakline
+package net.agiledeveloper.breakline.splitters
 
 @JvmRecord
 data class Pair(val opening: Char, val closing: Char) {

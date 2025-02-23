@@ -9,8 +9,11 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
-import net.agiledeveloper.breakline.Characters.FOUR_SPACES
-import net.agiledeveloper.breakline.Characters.TAB
+import net.agiledeveloper.breakline.splitters.Characters.FOUR_SPACES
+import net.agiledeveloper.breakline.splitters.Characters.TAB
+import net.agiledeveloper.breakline.splitters.DeclarationSplitter
+import net.agiledeveloper.breakline.splitters.Pair
+import net.agiledeveloper.breakline.splitters.Splitter
 
 class SplitLineAction : AnAction() {
 

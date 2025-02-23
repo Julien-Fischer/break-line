@@ -1,6 +1,6 @@
-package net.agiledeveloper.breakline
+package net.agiledeveloper.breakline.splitters
 
-import net.agiledeveloper.breakline.Characters.FOUR_SPACES
+import net.agiledeveloper.breakline.splitters.Characters.FOUR_SPACES
 
 interface Splitter {
 

@@ -1,4 +1,4 @@
-package net.agiledeveloper.breakline
+package net.agiledeveloper.breakline.splitters
 
 class SplitterSyntax(
     private val supportedPairs: List<Pair>

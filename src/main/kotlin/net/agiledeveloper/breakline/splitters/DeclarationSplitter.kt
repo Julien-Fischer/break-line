@@ -1,7 +1,7 @@
-package net.agiledeveloper.breakline
+package net.agiledeveloper.breakline.splitters
 
-import net.agiledeveloper.breakline.Characters.NEW_LINE
-import net.agiledeveloper.breakline.Characters.SINGLE_SPACE
+import net.agiledeveloper.breakline.splitters.Characters.NEW_LINE
+import net.agiledeveloper.breakline.splitters.Characters.SINGLE_SPACE
 
 class DeclarationSplitter(
     private val syntax: SplitterSyntax

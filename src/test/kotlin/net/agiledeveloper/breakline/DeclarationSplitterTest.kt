@@ -1,5 +1,7 @@
 package net.agiledeveloper.breakline
 
+import net.agiledeveloper.breakline.splitters.DeclarationSplitter
+import net.agiledeveloper.breakline.splitters.Pair
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
