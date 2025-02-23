@@ -6,9 +6,9 @@
 
 ## Template ToDo list
 - [x] Create a new [IntelliJ Platform Plugin Template][template] project.
-- [ ] Get familiar with the [template documentation][template].
-- [ ] Adjust the [pluginGroup](./gradle.properties) and [pluginName](./gradle.properties), as well as the [id](./src/main/resources/META-INF/plugin.xml) and [sources package](./src/main/kotlin).
-- [ ] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
+- [X] Get familiar with the [template documentation][template].
+- [X] Adjust the [pluginGroup](./gradle.properties) and [pluginName](./gradle.properties), as well as the [id](./src/main/resources/META-INF/plugin.xml) and [sources package](./src/main/kotlin).
+- [X] Adjust the plugin description in `README` (see [Tips][docs:plugin-description])
 - [ ] Review the [Legal Agreements](https://plugins.jetbrains.com/docs/marketplace/legal-agreements.html?from=IJPluginTemplate).
 - [ ] [Publish a plugin manually](https://plugins.jetbrains.com/docs/intellij/publishing-plugin.html?from=IJPluginTemplate) for the first time.
 - [ ] Set the `MARKETPLACE_ID` in the above README badges. You can obtain it once the plugin is published to JetBrains Marketplace.
@@ -17,11 +17,94 @@
 - [ ] Click the <kbd>Watch</kbd> button on the top of the [IntelliJ Platform Plugin Template][template] to be notified about releases containing new features and fixes.
 
 <!-- Plugin description -->
-This Fancy IntelliJ Platform Plugin is going to be your implementation of the brilliant ideas that you have.
 
-This specific section is a source for the [plugin.xml](/src/main/resources/META-INF/plugin.xml) file which will be extracted by the [Gradle](/build.gradle.kts) during the build process.
+Effortlessly split long lines of code into multiple lines while preserving indentation and formatting.
 
-To keep everything working, do not remove `<!-- ... -->` sections. 
+Main Features
+
+- Automatically splits lines containing lists, arrays, or method parameters.</li>
+- Preserves indentation for consistent code style.</li>
+- Supports common cases like <code>List.of(...)</code>, <code>new String[] {...}</code>, and method signatures.</li>
+- Improves readability and simplifies code maintenance.</li>
+
+How to Use
+
+- Place your caret in a line of code in the editor.</li>
+- Right-click and choose "<b>Split Line</b>" from the context menu.</li>
+- The plugin will reformat the line into multiple indented lines.</li>
+
+Examples
+
+Input
+```
+private Response<Entity> deserialize(String subject, byte[] bytes, Object payload) throws IOException {
+```
+
+Output
+```
+private Response<Entity> deserialize(
+    String subject, 
+    byte[] bytes, 
+    Object payload
+) throws IOException {
+```
+
+Input
+```
+var elements = List.of("foo", "bar", "baz");
+```
+
+Output
+```
+var elements = List.of(
+    "foo",
+    "bar",
+    "baz"
+);
+```
+
+Input
+```
+var elements = new String[] {"foo", "bar", "baz"};
+```
+
+Output
+```
+var elements = new String[] {
+    "foo",
+    "bar",
+    "baz"
+);
+```
+
+Input
+```
+String[] elements = {"foo", "bar", "baz"};
+```
+
+Output
+```
+String[] elements = {
+    "foo",
+    "bar",
+    "baz"
+);
+```
+
+Input
+```
+var nestedSets = Set.of(Set.of("foo", "bar", "baz"), Set.of("foo", "bar", "baz"), Set.of("foo", "bar", "baz"));
+```
+
+Output
+```
+var nestedSets = Set.of(
+    Set.of("foo", "bar", "baz"), 
+    Set.of("foo", "bar", "baz"), 
+    Set.of("foo", "bar", "baz")
+);
+```
+
 <!-- Plugin description end -->
 
 ## Installation
