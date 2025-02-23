@@ -245,4 +245,34 @@ class DeclarationSplitterTest {
             .isEqualTo(expected)
     }
 
+    @Test
+    fun method_calls_with_lists_are_split_across_multiple_lines() {
+        val input = "create(List.of(0, 1, 2), List.of(3, 4, 5), List.of(6, 7, 8));"
+        val expected = """create(
+    List.of(0, 1, 2),
+    List.of(3, 4, 5),
+    List.of(6, 7, 8)
+);""".trimMargin()
+
+        val output: String = splitter.split(input)
+
+        assertThat(output)
+            .isEqualTo(expected)
+    }
+
+    @Test
+    fun method_calls_with_nested_lists_are_split_across_multiple_lines() {
+        val input = "create(List.of(0, 1, List.of(0, 1, 2)), List.of(3, 4, 5), List.of(6, 7, 8));"
+        val expected = """create(
+    List.of(0, 1, List.of(0, 1, 2)),
+    List.of(3, 4, 5),
+    List.of(6, 7, 8)
+);""".trimMargin()
+
+        val output: String = splitter.split(input)
+
+        assertThat(output)
+            .isEqualTo(expected)
+    }
+
 }
