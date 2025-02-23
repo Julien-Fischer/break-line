@@ -8,7 +8,7 @@ import com.intellij.application.options.CodeStyle
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
-import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
@@ -48,7 +48,7 @@ class SplitLineAction : AnAction() {
 
         val formatted = splitter.split(lineText, userIndentation)
 
-        ApplicationManager.getApplication().runWriteAction {
+        WriteCommandAction.runWriteCommandAction(project) {
             document.replaceString(lineStart, lineEnd, formatted)
         }
     }

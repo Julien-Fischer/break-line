@@ -23,8 +23,11 @@
         <action
                 id="net.agiledeveloper.SplitLineAction"
                 class="net.agiledeveloper.breakline.SplitLineAction"
-                text="SplitLineAction"
+                text="Split Line"
                 description="Splits a line into multiple lines"
-        />
+        >
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt G"/>
+        </action>
     </actions>
 </idea-plugin>
