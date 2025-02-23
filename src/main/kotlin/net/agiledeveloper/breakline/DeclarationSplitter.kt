@@ -4,11 +4,13 @@ import net.agiledeveloper.breakline.Characters.NEW_LINE
 import net.agiledeveloper.breakline.Characters.SINGLE_SPACE
 
 class DeclarationSplitter(
-    private val supportedPairs: List<Pair>
+    private val syntax: SplitterSyntax
 ) : Splitter {
 
+    constructor(pairs: List<Pair>) : this(SplitterSyntax(pairs))
+
     override fun split(lineText: String, indentation: String): String {
-        val pair: Pair? = detectPair(lineText)
+        val pair: Pair? = syntax.detectPair(lineText)
 
         println("using pair %s".format(pair))
         val leadingWhitespace = lineText.replace(Regex("^(\\s*).*"), "$1")
@@ -63,8 +65,8 @@ class DeclarationSplitter(
         for (char in text) {
             when {
                 char == '"' -> inQuotes = !inQuotes
-                !inQuotes && isOpeningChar(char) -> depth++
-                !inQuotes && isClosingChar(char) -> depth--
+                !inQuotes && syntax.isOpeningChar(char) -> depth++
+                !inQuotes && syntax.isClosingChar(char) -> depth--
                 !inQuotes && char == ',' && depth == 0 -> {
                     parts.add(currentPart.toString().trim())
                     currentPart = StringBuilder()
@@ -79,14 +81,6 @@ class DeclarationSplitter(
         }
 
         return parts
-    }
-
-    private fun isOpeningChar(char: Char): Boolean {
-        return supportedPairs.any { it.opening == char }
-    }
-
-    private fun isClosingChar(char: Char): Boolean {
-        return supportedPairs.any { it.closing == char }
     }
 
     private fun removeLastTwoCharactersAfterLastPart(result: StringBuilder, parts: List<String>) {
@@ -108,15 +102,6 @@ class DeclarationSplitter(
             if (depth == 0) return i
         }
         return -1
-    }
-
-    private fun detectPair(text: String): Pair? {
-        for (pair in supportedPairs) {
-            if (text.contains(pair.opening) && text.contains(pair.closing)) {
-                return pair
-            }
-        }
-        return null
     }
 
 }
