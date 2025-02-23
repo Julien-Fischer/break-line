@@ -22,16 +22,16 @@ Effortlessly split long lines of code into multiple lines while preserving inden
 
 Main Features
 
-- Automatically splits lines containing lists, arrays, or method parameters.</li>
-- Preserves indentation for consistent code style.</li>
-- Supports common cases like <code>List.of(...)</code>, <code>new String[] {...}</code>, and method signatures.</li>
-- Improves readability and simplifies code maintenance.</li>
+- Automatically split arguments in declarations or method calls to multiple lines.
+- Preserves indentation for consistent code style.
+- Supports common cases like `List.of(...)`, `new String[] {...}`, and method signatures.
+- Improves readability and simplifies code maintenance.
 
 How to Use
 
-- Place your caret in a line of code in the editor.</li>
-- Right-click and choose "<b>Split Line</b>" from the context menu.</li>
-- The plugin will reformat the line into multiple indented lines.</li>
+- Place your caret in a line of code in the editor.
+- Right-click and choose "**Split Line**" from the context menu.
+- The plugin will reformat the line into multiple indented lines.
 
 Language support
 
