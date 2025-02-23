@@ -73,6 +73,21 @@ class DeclarationSplitterTest {
     }
 
     @Test
+    fun constructor_signature_is_split_across_multiple_lines() {
+        val input = "public Lifecycle(Inventory inventory, Instrumentation instrumentation, Clock clock) {"
+        val expected = """public Lifecycle(
+    Inventory inventory,
+    Instrumentation instrumentation,
+    Clock clock
+) {""".trimMargin()
+
+        val output: String = splitter.split(input)
+
+        assertThat(output)
+            .isEqualTo(expected)
+    }
+
+    @Test
     fun empty_parentheses_are_split_across_multiple_lines() {
         val input = "List.of()"
         val expected = """List.of(
@@ -207,6 +222,22 @@ class DeclarationSplitterTest {
     Set.of("foo", "bar", "baz"),
     Set.of("foo", "bar", "baz")
 );"""
+
+        val output: String = splitter.split(input)
+
+        assertThat(output)
+            .isEqualTo(expected)
+    }
+
+    @Test
+    fun method_calls_are_split_across_multiple_lines() {
+        val input = "var channel = new Channel(id, device.macAddress(), type, zone.path());"
+        val expected = """var channel = new Channel(
+    id,
+    device.macAddress(),
+    type,
+    zone.path()
+);""".trimMargin()
 
         val output: String = splitter.split(input)
 
