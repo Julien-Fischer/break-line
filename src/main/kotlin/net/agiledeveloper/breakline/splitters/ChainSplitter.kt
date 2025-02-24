@@ -6,7 +6,7 @@ import net.agiledeveloper.breakline.splitters.Characters.NEW_LINE
 import net.agiledeveloper.breakline.splitters.Characters.SINGLE_SPACE
 import java.util.*
 
-class MethodSplitter : Splitter {
+class ChainSplitter : Splitter {
 
     private val pair = Pair('(', ')')
 

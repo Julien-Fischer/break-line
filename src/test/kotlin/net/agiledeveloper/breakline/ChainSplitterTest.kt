@@ -1,12 +1,12 @@
 package net.agiledeveloper.breakline
 
-import net.agiledeveloper.breakline.splitters.MethodSplitter
+import net.agiledeveloper.breakline.splitters.ChainSplitter
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-internal class MethodSplitterTest {
+internal class ChainSplitterTest {
 
-    private val splitter = MethodSplitter()
+    private val splitter = ChainSplitter()
 
     @Test
     fun no_function_calls_are_not_split() {
