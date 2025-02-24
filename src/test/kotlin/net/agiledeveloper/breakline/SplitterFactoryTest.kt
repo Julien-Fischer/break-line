@@ -4,10 +4,10 @@
 
 package net.agiledeveloper.breakline
 
-import net.agiledeveloper.breakline.splitters.ArgumentSplitter
-import net.agiledeveloper.breakline.splitters.ChainSplitter
-import net.agiledeveloper.breakline.splitters.IdentitySplitter
 import net.agiledeveloper.breakline.splitters.SplitterFactory
+import net.agiledeveloper.breakline.splitters.impl.ArgumentSplitter
+import net.agiledeveloper.breakline.splitters.impl.ChainSplitter
+import net.agiledeveloper.breakline.splitters.impl.IdentitySplitter
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 

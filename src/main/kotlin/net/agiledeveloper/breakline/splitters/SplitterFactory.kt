@@ -4,6 +4,12 @@
 
 package net.agiledeveloper.breakline.splitters
 
+import net.agiledeveloper.breakline.splitters.data.Context
+import net.agiledeveloper.breakline.splitters.data.Pair
+import net.agiledeveloper.breakline.splitters.impl.ArgumentSplitter
+import net.agiledeveloper.breakline.splitters.impl.ChainSplitter
+import net.agiledeveloper.breakline.splitters.impl.IdentitySplitter
+
 class SplitterFactory {
 
     private val supportedPairs = listOf(

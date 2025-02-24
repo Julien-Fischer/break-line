@@ -1,4 +1,4 @@
-package net.agiledeveloper.breakline.splitters
+package net.agiledeveloper.breakline.splitters.utils
 
 object TextUtils {
 

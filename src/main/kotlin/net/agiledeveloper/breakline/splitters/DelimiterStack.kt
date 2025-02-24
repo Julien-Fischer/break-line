@@ -1,5 +1,6 @@
 package net.agiledeveloper.breakline.splitters
 
+import net.agiledeveloper.breakline.splitters.data.Pair
 import java.util.*
 
 class DelimiterStack(private val syntax: SplitterSyntax) {

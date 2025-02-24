@@ -4,8 +4,8 @@
 
 package net.agiledeveloper.breakline
 
-import net.agiledeveloper.breakline.splitters.ArgumentSplitter
-import net.agiledeveloper.breakline.splitters.Pair
+import net.agiledeveloper.breakline.splitters.data.Pair
+import net.agiledeveloper.breakline.splitters.impl.ArgumentSplitter
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 

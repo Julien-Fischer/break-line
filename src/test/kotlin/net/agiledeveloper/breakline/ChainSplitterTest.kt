@@ -4,7 +4,7 @@
 
 package net.agiledeveloper.breakline
 
-import net.agiledeveloper.breakline.splitters.ChainSplitter
+import net.agiledeveloper.breakline.splitters.impl.ChainSplitter
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 

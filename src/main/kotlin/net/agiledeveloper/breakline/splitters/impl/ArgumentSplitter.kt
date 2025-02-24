@@ -2,10 +2,14 @@
 // See the LICENSE file in the project root for more information:
 // https://github.com/Julien-Fischer/break-line/blob/main/LICENSE
 
-package net.agiledeveloper.breakline.splitters
+package net.agiledeveloper.breakline.splitters.impl
 
-import net.agiledeveloper.breakline.splitters.Characters.NEW_LINE
-import net.agiledeveloper.breakline.splitters.Characters.SINGLE_SPACE
+import net.agiledeveloper.breakline.splitters.Splitter
+import net.agiledeveloper.breakline.splitters.SplitterSyntax
+import net.agiledeveloper.breakline.splitters.constants.Characters.NEW_LINE
+import net.agiledeveloper.breakline.splitters.constants.Characters.SINGLE_SPACE
+import net.agiledeveloper.breakline.splitters.data.Pair
+import net.agiledeveloper.breakline.splitters.utils.TextUtils
 
 class ArgumentSplitter(
     private val syntax: SplitterSyntax
