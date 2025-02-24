@@ -8,11 +8,12 @@ import net.agiledeveloper.breakline.splitters.Characters.DOT
 import net.agiledeveloper.breakline.splitters.Characters.HEIGHT_SPACES
 import net.agiledeveloper.breakline.splitters.Characters.NEW_LINE
 import net.agiledeveloper.breakline.splitters.Characters.SINGLE_SPACE
-import java.util.*
 
 class ChainSplitter : Splitter {
 
-    private val pair = Pair('(', ')')
+    private val stack = DelimiterStack(listOf(
+        Pair('(', ')')
+    ))
 
     private var firstLine = true
     private var leadingWhitespace: String = ""
@@ -25,12 +26,10 @@ class ChainSplitter : Splitter {
 
         val result = StringBuilder()
         val currentLine = StringBuilder()
-        val stack = Stack<Char>()
 
         for (currentChar in line) {
-            updateStack(currentChar, stack)
-
-            if (shouldStartNewLine(currentChar, stack)) {
+            stack.offer(currentChar)
+            if (shouldStartNewLine(currentChar)) {
                 startNewLine(currentChar, currentLine, result)
             } else {
                 currentLine.append(currentChar)
@@ -62,15 +61,8 @@ class ChainSplitter : Splitter {
         return leadingWhitespace + if (firstLine) "" else lineIndentation
     }
 
-    private fun updateStack(currentChar: Char, stack: Stack<Char>) {
-        if (currentChar == pair.opening) {
-            stack.push(currentChar)
-        } else if (currentChar == pair.closing && stack.isNotEmpty()) {
-            stack.pop()
-        }
-    }
-
-    private fun shouldStartNewLine(currentChar: Char, stack: Stack<Char>): Boolean {
+    private fun shouldStartNewLine(currentChar: Char): Boolean {
         return currentChar == DOT && stack.isEmpty()
     }
+
 }

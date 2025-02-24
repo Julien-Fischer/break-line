@@ -4,8 +4,6 @@
 
 package net.agiledeveloper.breakline.splitters
 
-import java.util.*
-
 class SplitterFactory {
 
     private val supportedPairs = listOf(
@@ -13,8 +11,7 @@ class SplitterFactory {
         Pair('{', '}'),
         Pair('[', ']')
     )
-
-    private val syntax = SplitterSyntax(supportedPairs)
+    private val stack = DelimiterStack(supportedPairs)
 
     fun of(input: String, caretOffset: Int): Splitter {
         return of(Context(input, caretOffset))
@@ -31,16 +28,10 @@ class SplitterFactory {
     }
 
     private fun shouldSplitArguments(context: Context): Boolean {
-        val stack = Stack<Char>()
         println("${context.caretOffset}, ${context.line.length}, ${context.line}")
         for (i in 0..context.caretOffset) {
             val currentChar = context.line[i]
-
-            if (syntax.isOpeningChar(currentChar)) {
-                stack.push(currentChar)
-            } else if (syntax.isClosingChar(currentChar)) {
-                stack.pop()
-            }
+            stack.offer(currentChar)
         }
         return stack.isNotEmpty()
     }
