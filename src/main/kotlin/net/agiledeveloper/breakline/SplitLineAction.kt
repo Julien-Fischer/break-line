@@ -13,21 +13,14 @@ import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
-import net.agiledeveloper.breakline.splitters.ArgumentSplitter
 import net.agiledeveloper.breakline.splitters.Characters.FOUR_SPACES
 import net.agiledeveloper.breakline.splitters.Characters.TAB
-import net.agiledeveloper.breakline.splitters.Pair
-import net.agiledeveloper.breakline.splitters.Splitter
+import net.agiledeveloper.breakline.splitters.Context
+import net.agiledeveloper.breakline.splitters.SplitterFactory
 
 class SplitLineAction : AnAction() {
 
-    private val supportedPairs = listOf(
-        Pair('(', ')'),
-        Pair('{', '}'),
-        Pair('[', ']')
-    )
-
-    private val splitter: Splitter = ArgumentSplitter(supportedPairs)
+    private val splitterFactory: SplitterFactory = SplitterFactory()
 
     override fun actionPerformed(e: AnActionEvent) {
         val editor = e.getData(CommonDataKeys.EDITOR)
@@ -36,13 +29,18 @@ class SplitLineAction : AnAction() {
         if (editor == null || project == null) return
 
         val document = editor.document
-        val caretOffset = editor.caretModel.offset
-        val lineNumber = document.getLineNumber(caretOffset)
+        val caretOffsetAbsolute = editor.caretModel.offset
+        val lineNumber = document.getLineNumber(caretOffsetAbsolute)
+        val lineStartOffset = editor.document.getLineStartOffset(lineNumber)
+        val caretOffsetRelative = caretOffsetAbsolute - lineStartOffset
 
         val lineStart = document.getLineStartOffset(lineNumber)
         val lineEnd = document.getLineEndOffset(lineNumber)
 
+
         val lineText = document.text.substring(lineStart, lineEnd)
+
+        val splitter = splitterFactory.of(Context(lineText, caretOffsetRelative))
 
         val userIndentation: String = getUserPreferredIndentation(editor, project)
 
