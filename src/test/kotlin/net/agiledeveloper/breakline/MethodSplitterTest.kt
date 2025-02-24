@@ -169,4 +169,16 @@ internal class MethodSplitterTest {
             .isEqualTo(expected)
     }
 
+    @Test
+    fun indentation_is_preserved() {
+        val input = "    List.of(a, b, c)"
+        val expected = """    List
+        .of(a, b, c)"""
+
+        val output: String = splitter.split(input)
+
+        assertThat(output)
+            .isEqualTo(expected)
+    }
+
 }

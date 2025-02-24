@@ -9,12 +9,15 @@ class MethodSplitter : Splitter {
 
     private val pair = Pair('(', ')')
     private var firstLine = true
+    private var leadingWhitespace: String = ""
 
     override fun split(line: String, indentation: String): String {
         firstLine = true
         val result = StringBuilder()
         val currentLine = StringBuilder()
         val stack = Stack<Char>()
+
+        leadingWhitespace = line.replace(Regex("^(\\s*).*"), "$1")
 
         for (currentChar in line) {
             updateStack(currentChar, stack)
@@ -50,7 +53,7 @@ class MethodSplitter : Splitter {
     }
 
     private fun getIndentation(firstLine: Boolean, indentation: String): String {
-        return if (firstLine) "" else indentation
+        return leadingWhitespace + if (firstLine) "" else indentation
     }
 
     private fun updateStack(currentChar: Char, stack: Stack<Char>) {
