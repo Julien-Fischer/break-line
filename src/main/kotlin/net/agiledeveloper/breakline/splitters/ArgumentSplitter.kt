@@ -13,23 +13,23 @@ class ArgumentSplitter(
 
     constructor(pairs: List<Pair>) : this(SplitterSyntax(pairs))
 
-    override fun split(lineText: String, indentation: String): String {
-        val pair: Pair? = syntax.detectPair(lineText)
+    override fun split(line: String, indentation: String): String {
+        val pair: Pair? = syntax.detectPair(line)
 
         println("using pair %s".format(pair))
-        val leadingWhitespace = lineText.replace(Regex("^(\\s*).*"), "$1")
+        val leadingWhitespace = line.replace(Regex("^(\\s*).*"), "$1")
 
         if (pair != null) {
-            val openParenIndex = lineText.indexOf(pair.opening)
-            val closeParenIndex = findMatchingCharacter(lineText, openParenIndex, pair)
+            val openParenIndex = line.indexOf(pair.opening)
+            val closeParenIndex = findMatchingCharacter(line, openParenIndex, pair)
 
             if (isMalformedInput(closeParenIndex)) {
-                return lineText
+                return line
             }
 
-            val before = lineText.substring(0, openParenIndex + 1).trim { it <= SINGLE_SPACE }
-            val inside = lineText.substring(openParenIndex + 1, closeParenIndex).trim { it <= SINGLE_SPACE }
-            val after  = lineText.substring(closeParenIndex).trim { it <= SINGLE_SPACE }
+            val before = line.substring(0, openParenIndex + 1).trim { it <= SINGLE_SPACE }
+            val inside = line.substring(openParenIndex + 1, closeParenIndex).trim { it <= SINGLE_SPACE }
+            val after  = line.substring(closeParenIndex).trim { it <= SINGLE_SPACE }
 
             val parts = splitPartsWithNesting(inside)
             val result = StringBuilder()
@@ -57,7 +57,7 @@ class ArgumentSplitter(
             return result.toString()
         }
 
-        return lineText
+        return line
     }
 
     private fun splitPartsWithNesting(text: String): List<String> {
