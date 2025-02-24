@@ -197,4 +197,26 @@ internal class ChainSplitterTest {
             .isEqualTo(expected)
     }
 
+    @Test
+    fun lengthy_method_chains_are_split_to_multiple_lines() {
+        val input = """List<String> result = List.of("a", "b", "c").stream() .filter(s -> !s.isEmpty()) .map(String::toUpperCase) .flatMap(s -> s.chars().mapToObj(ch -> String.valueOf((char) ch))) .distinct() .sorted() .skip(1) .limit(2) .map(s -> s.repeat(2)) .collect(Collectors.toList());"""
+        val expected = """List<String> result = List
+        .of("a", "b", "c")
+        .stream()
+        .filter(s -> !s.isEmpty())
+        .map(String::toUpperCase)
+        .flatMap(s -> s.chars().mapToObj(ch -> String.valueOf((char) ch)))
+        .distinct()
+        .sorted()
+        .skip(1)
+        .limit(2)
+        .map(s -> s.repeat(2))
+        .collect(Collectors.toList());"""
+
+        val output: String = splitter.split(input)
+
+        assertThat(output)
+            .isEqualTo(expected)
+    }
+
 }
