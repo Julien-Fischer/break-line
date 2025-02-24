@@ -5,7 +5,7 @@
 package net.agiledeveloper.breakline.splitters
 
 import net.agiledeveloper.breakline.splitters.Characters.DOT
-import net.agiledeveloper.breakline.splitters.Characters.FOUR_SPACES
+import net.agiledeveloper.breakline.splitters.Characters.HEIGHT_SPACES
 import net.agiledeveloper.breakline.splitters.Characters.NEW_LINE
 import net.agiledeveloper.breakline.splitters.Characters.SINGLE_SPACE
 import java.util.*
@@ -16,12 +16,12 @@ class ChainSplitter : Splitter {
 
     private var firstLine = true
     private var leadingWhitespace: String = ""
-    private var lineIndentation: String = FOUR_SPACES
+    private var lineIndentation: String = HEIGHT_SPACES
 
     override fun split(line: String, indentation: String): String {
         firstLine = true
         leadingWhitespace = TextUtils.getLeadingWhitespace(line)
-        lineIndentation = indentation
+        lineIndentation = indentation.repeat(2)
 
         val result = StringBuilder()
         val currentLine = StringBuilder()

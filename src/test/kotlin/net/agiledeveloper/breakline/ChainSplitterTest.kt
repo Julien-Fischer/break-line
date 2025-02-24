@@ -25,9 +25,9 @@ internal class ChainSplitterTest {
         val input = "a.b().c().d()"
         val expected = """
             a
-                .b()
-                .c()
-                .d()
+                    .b()
+                    .c()
+                    .d()
         """.trimIndent()
 
         assertThat(splitter.split(input))
@@ -39,9 +39,9 @@ internal class ChainSplitterTest {
         val input = "a.b(x.y().z()).c().d()"
         val expected = """
             a
-                .b(x.y().z())
-                .c()
-                .d()
+                    .b(x.y().z())
+                    .c()
+                    .d()
         """.trimIndent()
 
         assertThat(splitter.split(input))
@@ -53,7 +53,7 @@ internal class ChainSplitterTest {
         val input = "a.b()"
         val expected = """
             a
-                .b()
+                    .b()
         """.trimIndent()
 
         assertThat(splitter.split(input))
@@ -71,8 +71,8 @@ internal class ChainSplitterTest {
         val input = "  a  .b(   x   )   .  c( ) "
         val expected = """
             a
-                .b(   x   )
-                .  c( )
+                    .b(   x   )
+                    .  c( )
         """.trimIndent()
 
         assertThat(splitter.split(input.trim { it <= ' ' }))
@@ -84,9 +84,9 @@ internal class ChainSplitterTest {
         val input = "a.b(c(d(e(f())))).g().h()"
         val expected = """
             a
-                .b(c(d(e(f()))))
-                .g()
-                .h()
+                    .b(c(d(e(f()))))
+                    .g()
+                    .h()
         """.trimIndent()
 
         assertThat(splitter.split(input))
@@ -98,9 +98,9 @@ internal class ChainSplitterTest {
         val input = "a.b().c()."
         val expected = """
             a
-                .b()
-                .c()
-                .
+                    .b()
+                    .c()
+                    .
         """.trimIndent()
 
         assertThat(splitter.split(input))
@@ -112,7 +112,7 @@ internal class ChainSplitterTest {
         val input = "a.b(c.d("
         val expected = """
             a
-                .b(c.d(
+                    .b(c.d(
         """.trimIndent()
 
         assertThat(splitter.split(input))
@@ -124,7 +124,7 @@ internal class ChainSplitterTest {
         val input = "a.b(c.d))"
         val expected = """
             a
-                .b(c.d))
+                    .b(c.d))
         """.trimIndent()
 
         assertThat(splitter.split(input))
@@ -136,9 +136,9 @@ internal class ChainSplitterTest {
         val input = "a.b(x.y.z).c().d()"
         val expected = """
             a
-                .b(x.y.z)
-                .c()
-                .d()
+                    .b(x.y.z)
+                    .c()
+                    .d()
         """.trimIndent()
 
         assertThat(splitter.split(input))
@@ -150,10 +150,10 @@ internal class ChainSplitterTest {
         val input = "a.b.c.d.e"
         val expected = """
             a
-                .b
-                .c
-                .d
-                .e
+                    .b
+                    .c
+                    .d
+                    .e
         """.trimIndent()
 
         assertThat(splitter.split(input))
@@ -164,10 +164,10 @@ internal class ChainSplitterTest {
     fun method_call_chaining_is_split_to_multiple_lines() {
         val input = "new Obj().method1(param1.method2()).method3(param2).method4().method5(param3.method6(param4.method7()))"
         val expected = """new Obj()
-    .method1(param1.method2())
-    .method3(param2)
-    .method4()
-    .method5(param3.method6(param4.method7()))"""
+        .method1(param1.method2())
+        .method3(param2)
+        .method4()
+        .method5(param3.method6(param4.method7()))"""
 
         assertThat(splitter.split(input))
             .isEqualTo(expected)
@@ -177,7 +177,7 @@ internal class ChainSplitterTest {
     fun indentation_is_preserved() {
         val input = "    List.of(a, b, c)"
         val expected = """    List
-        .of(a, b, c)"""
+            .of(a, b, c)"""
 
         val output: String = splitter.split(input)
 
@@ -189,7 +189,7 @@ internal class ChainSplitterTest {
     fun assignments_are_split_to_multiple_lines() {
         val input = "var list =   List.of(a, b, c)"
         val expected = """var list =   List
-    .of(a, b, c)"""
+        .of(a, b, c)"""
 
         val output: String = splitter.split(input)
 
