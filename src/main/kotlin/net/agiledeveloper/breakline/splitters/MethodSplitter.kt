@@ -1,6 +1,7 @@
 package net.agiledeveloper.breakline.splitters
 
 import net.agiledeveloper.breakline.splitters.Characters.DOT
+import net.agiledeveloper.breakline.splitters.Characters.FOUR_SPACES
 import net.agiledeveloper.breakline.splitters.Characters.NEW_LINE
 import net.agiledeveloper.breakline.splitters.Characters.SINGLE_SPACE
 import java.util.*
@@ -8,22 +9,25 @@ import java.util.*
 class MethodSplitter : Splitter {
 
     private val pair = Pair('(', ')')
+
     private var firstLine = true
     private var leadingWhitespace: String = ""
+    private var lineIndentation: String = FOUR_SPACES
 
     override fun split(line: String, indentation: String): String {
         firstLine = true
+        leadingWhitespace = TextUtils.getLeadingWhitespace(line)
+        lineIndentation = indentation
+
         val result = StringBuilder()
         val currentLine = StringBuilder()
         val stack = Stack<Char>()
-
-        leadingWhitespace = TextUtils.getLeadingWhitespace(line)
 
         for (currentChar in line) {
             updateStack(currentChar, stack)
 
             if (shouldStartNewLine(currentChar, stack)) {
-                startNewLine(indentation, currentChar, currentLine, result)
+                startNewLine(currentChar, currentLine, result)
             } else {
                 currentLine.append(currentChar)
             }
@@ -31,19 +35,17 @@ class MethodSplitter : Splitter {
 
         if (currentLine.isNotEmpty()) {
             result
-                .append(getIndentation(firstLine, indentation))
+                .append(getIndentation())
                 .append(currentLine.toString().trim { it <= SINGLE_SPACE })
         }
 
         return result.toString().trimEnd()
     }
 
-    private fun startNewLine(
-        indentation: String, currentChar: Char, currentLine: StringBuilder, result: StringBuilder
-    ) {
+    private fun startNewLine(currentChar: Char, currentLine: StringBuilder, result: StringBuilder) {
         if (currentLine.isNotEmpty()) {
             result
-                .append(getIndentation(firstLine, indentation))
+                .append(getIndentation())
                 .append(currentLine.toString().trim { it <= SINGLE_SPACE })
                 .append(NEW_LINE)
         }
@@ -52,8 +54,8 @@ class MethodSplitter : Splitter {
         firstLine = false
     }
 
-    private fun getIndentation(firstLine: Boolean, indentation: String): String {
-        return leadingWhitespace + if (firstLine) "" else indentation
+    private fun getIndentation(): String {
+        return leadingWhitespace + if (firstLine) "" else lineIndentation
     }
 
     private fun updateStack(currentChar: Char, stack: Stack<Char>) {
