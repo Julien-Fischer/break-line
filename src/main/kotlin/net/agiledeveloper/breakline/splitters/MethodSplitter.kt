@@ -17,7 +17,7 @@ class MethodSplitter : Splitter {
         val currentLine = StringBuilder()
         val stack = Stack<Char>()
 
-        leadingWhitespace = line.replace(Regex("^(\\s*).*"), "$1")
+        leadingWhitespace = TextUtils.getLeadingWhitespace(line)
 
         for (currentChar in line) {
             updateStack(currentChar, stack)

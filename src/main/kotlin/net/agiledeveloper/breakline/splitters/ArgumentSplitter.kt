@@ -16,8 +16,7 @@ class ArgumentSplitter(
     override fun split(line: String, indentation: String): String {
         val pair: Pair? = syntax.detectPair(line)
 
-        println("using pair %s".format(pair))
-        val leadingWhitespace = line.replace(Regex("^(\\s*).*"), "$1")
+        val leadingWhitespace = TextUtils.getLeadingWhitespace(line)
 
         if (pair != null) {
             val openParenIndex = line.indexOf(pair.opening)
