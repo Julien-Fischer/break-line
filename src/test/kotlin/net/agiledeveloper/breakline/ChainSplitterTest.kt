@@ -68,11 +68,11 @@ internal class ChainSplitterTest {
 
     @Test
     fun trailing_whitespaces_are_trimmed() {
-        val input = "  a  .b(   x   )   .c( ) "
+        val input = "  a  .b(   x   )   .  c( ) "
         val expected = """
             a
                 .b(   x   )
-                .c( )
+                .  c( )
         """.trimIndent()
 
         assertThat(splitter.split(input.trim { it <= ' ' }))
@@ -178,6 +178,18 @@ internal class ChainSplitterTest {
         val input = "    List.of(a, b, c)"
         val expected = """    List
         .of(a, b, c)"""
+
+        val output: String = splitter.split(input)
+
+        assertThat(output)
+            .isEqualTo(expected)
+    }
+
+    @Test
+    fun assignments_are_split_to_multiple_lines() {
+        val input = "var list =   List.of(a, b, c)"
+        val expected = """var list =   List
+    .of(a, b, c)"""
 
         val output: String = splitter.split(input)
 
