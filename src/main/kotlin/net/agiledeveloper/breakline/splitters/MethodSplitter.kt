@@ -8,8 +8,10 @@ import java.util.*
 class MethodSplitter : Splitter {
 
     private val pair = Pair('(', ')')
+    private var firstLine = true
 
     override fun split(line: String, indentation: String): String {
+        firstLine = true
         val result = StringBuilder()
         val currentLine = StringBuilder()
         val stack = Stack<Char>()
@@ -18,27 +20,37 @@ class MethodSplitter : Splitter {
             updateStack(currentChar, stack)
 
             if (shouldStartNewLine(currentChar, stack)) {
-                startNewLine(currentChar, currentLine, result)
+                startNewLine(indentation, currentChar, currentLine, result)
             } else {
                 currentLine.append(currentChar)
             }
         }
 
         if (currentLine.isNotEmpty()) {
-            result.append(currentLine.toString().trim { it <= SINGLE_SPACE })
+            result
+                .append(getIndentation(firstLine, indentation))
+                .append(currentLine.toString().trim { it <= SINGLE_SPACE })
         }
 
-        return result.toString()
+        return result.toString().trimEnd()
     }
 
-    private fun startNewLine(currentChar: Char, currentLine: StringBuilder, result: StringBuilder) {
-            if (currentLine.isNotEmpty()) {
-                result
-                    .append(currentLine.toString().trim { it <= SINGLE_SPACE })
-                    .append(NEW_LINE)
-            }
-            currentLine.setLength(0)
-            currentLine.append(currentChar)
+    private fun startNewLine(
+        indentation: String, currentChar: Char, currentLine: StringBuilder, result: StringBuilder
+    ) {
+        if (currentLine.isNotEmpty()) {
+            result
+                .append(getIndentation(firstLine, indentation))
+                .append(currentLine.toString().trim { it <= SINGLE_SPACE })
+                .append(NEW_LINE)
+        }
+        currentLine.setLength(0)
+        currentLine.append(currentChar)
+        firstLine = false
+    }
+
+    private fun getIndentation(firstLine: Boolean, indentation: String): String {
+        return if (firstLine) "" else indentation
     }
 
     private fun updateStack(currentChar: Char, stack: Stack<Char>) {
@@ -52,5 +64,4 @@ class MethodSplitter : Splitter {
     private fun shouldStartNewLine(currentChar: Char, stack: Stack<Char>): Boolean {
         return currentChar == DOT && stack.isEmpty()
     }
-
 }

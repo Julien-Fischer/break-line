@@ -1,7 +1,7 @@
 package net.agiledeveloper.breakline
 
-import junit.framework.TestCase.assertEquals
 import net.agiledeveloper.breakline.splitters.MethodSplitter
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 internal class MethodSplitterTest {
@@ -9,113 +9,164 @@ internal class MethodSplitterTest {
     private val splitter = MethodSplitter()
 
     @Test
-    fun testSimpleChain() {
+    fun no_function_calls_are_not_split() {
+        assertThat(splitter.split("a"))
+            .isEqualTo("a")
+        assertThat(splitter.split("object"))
+            .isEqualTo("object")
+    }
+
+    @Test
+    fun simple_chains_are_split_across_multiple_lines() {
         val input = "a.b().c().d()"
-        val expected = "a\n.b()\n.c()\n.d()"
-        assertEquals(expected, splitter.split(input))
+        val expected = """
+            a
+                .b()
+                .c()
+                .d()
+        """.trimIndent()
+
+        assertThat(splitter.split(input))
+            .isEqualTo(expected)
     }
 
     @Test
-    fun testNestedFunctionCalls() {
+    fun nested_function_calls_are_split_across_multiple_lines() {
         val input = "a.b(x.y().z()).c().d()"
-        val expected = "a\n.b(x.y().z())\n.c()\n.d()"
-        assertEquals(expected, splitter.split(input))
+        val expected = """
+            a
+                .b(x.y().z())
+                .c()
+                .d()
+        """.trimIndent()
+
+        assertThat(splitter.split(input))
+            .isEqualTo(expected)
     }
 
     @Test
-    fun testSingleFunctionCall() {
+    fun single_function_calls_are_split_across_multiple_lines() {
         val input = "a.b()"
-        val expected = "a\n.b()"
-        assertEquals(expected, splitter.split(input))
+        val expected = """
+            a
+                .b()
+        """.trimIndent()
+
+        assertThat(splitter.split(input))
+            .isEqualTo(expected)
     }
 
     @Test
-    fun testNoFunctionCalls() {
-        val input = "a"
-        val expected = "a"
-        assertEquals(expected, splitter.split(input))
+    fun empty_strings_are_not_split() {
+        assertThat(splitter.split(""))
+            .isEqualTo("")
     }
 
     @Test
-    fun testEmptyInput() {
-        val input = ""
-        val expected = ""
-        assertEquals(expected, splitter.split(input))
-    }
-
-    @Test
-    fun testWhitespaceHandling() {
+    fun trailing_whitespaces_are_trimmed() {
         val input = "  a  .b(   x   )   .c( ) "
-        val expected = "a\n.b(   x   )\n.c( )"
-        assertEquals(expected, splitter.split(input.trim { it <= ' ' }))
+        val expected = """
+            a
+                .b(   x   )
+                .c( )
+        """.trimIndent()
+
+        assertThat(splitter.split(input.trim { it <= ' ' }))
+            .isEqualTo(expected)
     }
 
     @Test
-    fun testDeeplyNestedFunctionCalls() {
+    fun deeply_nested_function_calls_are_split_gracefully() {
         val input = "a.b(c(d(e(f())))).g().h()"
-        val expected = "a\n.b(c(d(e(f()))))\n.g()\n.h()"
-        assertEquals(expected, splitter.split(input))
+        val expected = """
+            a
+                .b(c(d(e(f()))))
+                .g()
+                .h()
+        """.trimIndent()
+
+        assertThat(splitter.split(input))
+            .isEqualTo(expected)
     }
 
     @Test
-    fun testMultipleDotsWithoutParentheses() {
-        val input = "a.b.c.d"
-        val expected = "a\n.b\n.c\n.d"
-        assertEquals(expected, splitter.split(input))
-    }
-
-    @Test
-    fun testTrailingDot() {
+    fun trailing_dot_is_handled_gracefully() {
         val input = "a.b().c()."
-        val expected = "a\n.b()\n.c()\n."
-        assertEquals(expected, splitter.split(input))
+        val expected = """
+            a
+                .b()
+                .c()
+                .
+        """.trimIndent()
+
+        assertThat(splitter.split(input))
+            .isEqualTo(expected)
     }
 
     @Test
-    fun testUnbalancedParentheses_Open() {
+    fun unbalanced_parentheses_is_handled_gracefully() {
         val input = "a.b(c.d("
-        // This is invalid syntax, but the function should handle it gracefully
-        val expected = "a\n.b(c.d("
-        assertEquals(expected, splitter.split(input))
+        val expected = """
+            a
+                .b(c.d(
+        """.trimIndent()
+
+        assertThat(splitter.split(input))
+            .isEqualTo(expected)
     }
 
     @Test
-    fun testUnbalancedParentheses_Close() {
+    fun incomplete_syntax_is_handled_gracefully() {
         val input = "a.b(c.d))"
-        // This is invalid syntax, but the function should handle it gracefully
-        val expected = "a\n.b(c.d))"
-        assertEquals(expected, splitter.split(input))
+        val expected = """
+            a
+                .b(c.d))
+        """.trimIndent()
+
+        assertThat(splitter.split(input))
+            .isEqualTo(expected)
     }
 
     @Test
-    fun testDotInsideParameters() {
+    fun dot_inside_parameters_do_not_cause_a_split() {
         val input = "a.b(x.y.z).c().d()"
-        // The dot inside parameters should not cause a split
-        val expected = "a\n.b(x.y.z)\n.c()\n.d()"
-        assertEquals(expected, splitter.split(input))
+        val expected = """
+            a
+                .b(x.y.z)
+                .c()
+                .d()
+        """.trimIndent()
+
+        assertThat(splitter.split(input))
+            .isEqualTo(expected)
     }
 
     @Test
-    fun testFunctionWithNoParametersAndNoParentheses() {
+    fun property_chaining_is_split_to_multiple_lines() {
         val input = "a.b.c.d.e"
-        // No parentheses at all; just split on dots
-        val expected = "a\n.b\n.c\n.d\n.e"
-        assertEquals(expected, splitter.split(input))
+        val expected = """
+            a
+                .b
+                .c
+                .d
+                .e
+        """.trimIndent()
+
+        assertThat(splitter.split(input))
+            .isEqualTo(expected)
     }
 
     @Test
-    fun testComplexMixedCase() {
+    fun method_call_chaining_is_split_to_multiple_lines() {
         val input = "new Obj().method1(param1.method2()).method3(param2).method4().method5(param3.method6(param4.method7()))"
-        // Handles nested calls and proper splitting of the chain
-        val expected =
-            """
-            new Obj()
-            .method1(param1.method2())
-            .method3(param2)
-            .method4()
-            .method5(param3.method6(param4.method7()))
-            """.trimIndent()
+        val expected = """new Obj()
+    .method1(param1.method2())
+    .method3(param2)
+    .method4()
+    .method5(param3.method6(param4.method7()))"""
 
-        assertEquals(expected, splitter.split(input))
+        assertThat(splitter.split(input))
+            .isEqualTo(expected)
     }
+
 }
