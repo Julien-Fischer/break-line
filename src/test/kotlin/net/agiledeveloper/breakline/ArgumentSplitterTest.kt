@@ -11,7 +11,7 @@ import org.junit.Test
 
 class ArgumentSplitterTest {
 
-    private val testPairs = listOf(
+    private val testPairs = setOf(
         Pair('(', ')'),
         Pair('{', '}'),
         Pair('[', ']')

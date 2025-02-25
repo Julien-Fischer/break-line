@@ -12,7 +12,7 @@ import net.agiledeveloper.breakline.splitters.impl.IdentitySplitter
 
 class SplitterFactory {
 
-    private val supportedPairs = listOf(
+    private val supportedPairs = setOf(
         Pair('(', ')'),
         Pair('{', '}'),
         Pair('[', ']')

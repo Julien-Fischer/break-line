@@ -16,7 +16,7 @@ class ArgumentSplitter(
     private val syntax: DelimiterSyntax
 ) : Splitter {
 
-    constructor(pairs: List<Pair>) : this(DelimiterSyntax(pairs))
+    constructor(pairs: Set<Pair>) : this(DelimiterSyntax(pairs))
 
     override fun split(request: SplitRequest): String {
         val caretContext = request.context

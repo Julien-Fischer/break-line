@@ -7,7 +7,7 @@ package net.agiledeveloper.breakline.splitters
 import net.agiledeveloper.breakline.splitters.data.Pair
 
 class DelimiterSyntax(
-    private val supportedPairs: List<Pair>
+    private val supportedPairs: Set<Pair>
 ) {
 
     fun isOpeningChar(char: Char): Boolean {

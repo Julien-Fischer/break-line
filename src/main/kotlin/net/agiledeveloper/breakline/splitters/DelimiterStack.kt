@@ -7,7 +7,7 @@ class DelimiterStack(private val syntax: DelimiterSyntax) {
 
     private val stack = Stack<Char>()
 
-    constructor(supportedPairs: List<Pair>) : this(DelimiterSyntax(supportedPairs))
+    constructor(supportedPairs: Set<Pair>) : this(DelimiterSyntax(supportedPairs))
 
     fun offer(char: Char) {
         if (syntax.isOpeningChar(char)) {

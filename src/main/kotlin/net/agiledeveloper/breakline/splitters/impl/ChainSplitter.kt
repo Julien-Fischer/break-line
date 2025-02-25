@@ -16,7 +16,7 @@ import net.agiledeveloper.breakline.splitters.utils.TextUtils
 
 class ChainSplitter : Splitter {
 
-    private val stack = DelimiterStack(listOf(
+    private val stack = DelimiterStack(setOf(
         Pair('(', ')')
     ))
 
