@@ -4,7 +4,7 @@
 
 package net.agiledeveloper.breakline.splitters
 
-import net.agiledeveloper.breakline.splitters.data.Context
+import net.agiledeveloper.breakline.splitters.data.CaretContext
 import net.agiledeveloper.breakline.splitters.data.Pair
 import net.agiledeveloper.breakline.splitters.impl.ArgumentSplitter
 import net.agiledeveloper.breakline.splitters.impl.ChainSplitter
@@ -20,10 +20,10 @@ class SplitterFactory {
     private val stack = DelimiterStack(supportedPairs)
 
     fun of(input: String, caretOffset: Int): Splitter {
-        return of(Context(input, caretOffset))
+        return of(CaretContext(input, caretOffset))
     }
 
-    fun of(context: Context): Splitter {
+    fun of(context: CaretContext): Splitter {
         if (shouldSplitArguments(context)) {
             return ArgumentSplitter(supportedPairs)
         }
@@ -33,7 +33,7 @@ class SplitterFactory {
         return IdentitySplitter()
     }
 
-    private fun shouldSplitArguments(context: Context): Boolean {
+    private fun shouldSplitArguments(context: CaretContext): Boolean {
         println("${context.caretOffset}, ${context.line.length}, ${context.line}")
         for (i in 0..context.caretOffset) {
             val currentChar = context.line[i]
@@ -42,7 +42,7 @@ class SplitterFactory {
         return stack.isNotEmpty()
     }
 
-    private fun shouldSplitChains(context: Context): Boolean {
+    private fun shouldSplitChains(context: CaretContext): Boolean {
         var inString = false
         var inNumber = false
         var inVarargs = false

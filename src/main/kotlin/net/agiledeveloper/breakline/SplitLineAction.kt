@@ -16,7 +16,7 @@ import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import net.agiledeveloper.breakline.splitters.SplitterFactory
 import net.agiledeveloper.breakline.splitters.constants.Characters.FOUR_SPACES
 import net.agiledeveloper.breakline.splitters.constants.Characters.TAB
-import net.agiledeveloper.breakline.splitters.data.Context
+import net.agiledeveloper.breakline.splitters.data.CaretContext
 
 class SplitLineAction : AnAction() {
 
@@ -40,7 +40,7 @@ class SplitLineAction : AnAction() {
 
         val lineText = document.text.substring(lineStart, lineEnd)
 
-        val splitter = splitterFactory.of(Context(lineText, caretOffsetRelative))
+        val splitter = splitterFactory.of(CaretContext(lineText, caretOffsetRelative))
 
         val userIndentation: String = getUserPreferredIndentation(editor, project)
 
