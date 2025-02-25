@@ -5,13 +5,16 @@
 package net.agiledeveloper.breakline.splitters
 
 import net.agiledeveloper.breakline.splitters.constants.Characters.FOUR_SPACES
+import net.agiledeveloper.breakline.splitters.data.CaretContext
+import net.agiledeveloper.breakline.splitters.data.SplitRequest
 
 interface Splitter {
 
-    fun split(line: String, indentation: String): String
+    fun split(request: SplitRequest): String
 
     fun split(line: String): String {
-        return split(line, FOUR_SPACES)
+        val context = CaretContext(line, 0)
+        return split(SplitRequest(context, FOUR_SPACES))
     }
 
 }

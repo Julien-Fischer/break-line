@@ -11,6 +11,7 @@ import net.agiledeveloper.breakline.splitters.constants.Characters.HEIGHT_SPACES
 import net.agiledeveloper.breakline.splitters.constants.Characters.NEW_LINE
 import net.agiledeveloper.breakline.splitters.constants.Characters.SINGLE_SPACE
 import net.agiledeveloper.breakline.splitters.data.Pair
+import net.agiledeveloper.breakline.splitters.data.SplitRequest
 import net.agiledeveloper.breakline.splitters.utils.TextUtils
 
 class ChainSplitter : Splitter {
@@ -23,10 +24,11 @@ class ChainSplitter : Splitter {
     private var leadingWhitespace: String = ""
     private var lineIndentation: String = HEIGHT_SPACES
 
-    override fun split(line: String, indentation: String): String {
+    override fun split(request: SplitRequest): String {
+        val line = request.context.line
         firstLine = true
         leadingWhitespace = TextUtils.getLeadingWhitespace(line)
-        lineIndentation = indentation.repeat(2)
+        lineIndentation = request.userIndentation.repeat(2)
 
         val result = StringBuilder()
         val currentLine = StringBuilder()

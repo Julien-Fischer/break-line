@@ -9,6 +9,7 @@ import net.agiledeveloper.breakline.splitters.SplitterSyntax
 import net.agiledeveloper.breakline.splitters.constants.Characters.NEW_LINE
 import net.agiledeveloper.breakline.splitters.constants.Characters.SINGLE_SPACE
 import net.agiledeveloper.breakline.splitters.data.Pair
+import net.agiledeveloper.breakline.splitters.data.SplitRequest
 import net.agiledeveloper.breakline.splitters.utils.TextUtils
 
 class ArgumentSplitter(
@@ -17,7 +18,9 @@ class ArgumentSplitter(
 
     constructor(pairs: List<Pair>) : this(SplitterSyntax(pairs))
 
-    override fun split(line: String, indentation: String): String {
+    override fun split(request: SplitRequest): String {
+        val caretContext = request.context
+        val line = caretContext.line
         val pair: Pair? = syntax.detectPair(line)
 
         val leadingWhitespace = TextUtils.getLeadingWhitespace(line)
@@ -45,7 +48,7 @@ class ArgumentSplitter(
             for (part in parts) {
                 result
                     .append(leadingWhitespace)
-                    .append(indentation)
+                    .append(request.userIndentation)
                     .append(part.trim { it <= SINGLE_SPACE })
                     .append(",$NEW_LINE")
             }

@@ -5,11 +5,12 @@
 package net.agiledeveloper.breakline.splitters.impl
 
 import net.agiledeveloper.breakline.splitters.Splitter
+import net.agiledeveloper.breakline.splitters.data.SplitRequest
 
 class IdentitySplitter : Splitter {
 
-    override fun split(line: String, indentation: String): String {
-        return line
+    override fun split(request: SplitRequest): String {
+        return request.context.line
     }
 
 }

@@ -17,6 +17,7 @@ import net.agiledeveloper.breakline.splitters.SplitterFactory
 import net.agiledeveloper.breakline.splitters.constants.Characters.FOUR_SPACES
 import net.agiledeveloper.breakline.splitters.constants.Characters.TAB
 import net.agiledeveloper.breakline.splitters.data.CaretContext
+import net.agiledeveloper.breakline.splitters.data.SplitRequest
 
 class SplitLineAction : AnAction() {
 
@@ -37,14 +38,15 @@ class SplitLineAction : AnAction() {
         val lineStart = document.getLineStartOffset(lineNumber)
         val lineEnd = document.getLineEndOffset(lineNumber)
 
-
         val lineText = document.text.substring(lineStart, lineEnd)
+        val caretContext = CaretContext(lineText, caretOffsetRelative)
 
-        val splitter = splitterFactory.of(CaretContext(lineText, caretOffsetRelative))
+        val splitter = splitterFactory.of(caretContext)
 
         val userIndentation: String = getUserPreferredIndentation(editor, project)
+        val request = SplitRequest(caretContext, userIndentation)
 
-        val formatted = splitter.split(lineText, userIndentation)
+        val formatted = splitter.split(request)
 
         WriteCommandAction.runWriteCommandAction(project) {
             document.replaceString(lineStart, lineEnd, formatted)
