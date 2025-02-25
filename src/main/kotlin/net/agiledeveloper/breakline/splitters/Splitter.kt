@@ -13,7 +13,10 @@ interface Splitter {
     fun split(request: SplitRequest): String
 
     fun split(line: String): String {
-        val context = CaretContext(line, 0)
+        return split(CaretContext(line, 0))
+    }
+
+    fun split(context: CaretContext): String {
         return split(SplitRequest(context, FOUR_SPACES))
     }
 
