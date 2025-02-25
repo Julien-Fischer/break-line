@@ -3,11 +3,11 @@ package net.agiledeveloper.breakline.splitters
 import net.agiledeveloper.breakline.splitters.data.Pair
 import java.util.*
 
-class DelimiterStack(private val syntax: SplitterSyntax) {
+class DelimiterStack(private val syntax: DelimiterSyntax) {
 
     private val stack = Stack<Char>()
 
-    constructor(supportedPairs: List<Pair>) : this(SplitterSyntax(supportedPairs))
+    constructor(supportedPairs: List<Pair>) : this(DelimiterSyntax(supportedPairs))
 
     fun offer(char: Char) {
         if (syntax.isOpeningChar(char)) {

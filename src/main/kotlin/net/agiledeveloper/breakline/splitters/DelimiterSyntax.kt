@@ -6,7 +6,7 @@ package net.agiledeveloper.breakline.splitters
 
 import net.agiledeveloper.breakline.splitters.data.Pair
 
-class SplitterSyntax(
+class DelimiterSyntax(
     private val supportedPairs: List<Pair>
 ) {
 

@@ -4,8 +4,8 @@
 
 package net.agiledeveloper.breakline.splitters.impl
 
+import net.agiledeveloper.breakline.splitters.DelimiterSyntax
 import net.agiledeveloper.breakline.splitters.Splitter
-import net.agiledeveloper.breakline.splitters.SplitterSyntax
 import net.agiledeveloper.breakline.splitters.constants.Characters.NEW_LINE
 import net.agiledeveloper.breakline.splitters.constants.Characters.SINGLE_SPACE
 import net.agiledeveloper.breakline.splitters.data.Pair
@@ -13,10 +13,10 @@ import net.agiledeveloper.breakline.splitters.data.SplitRequest
 import net.agiledeveloper.breakline.splitters.utils.TextUtils
 
 class ArgumentSplitter(
-    private val syntax: SplitterSyntax
+    private val syntax: DelimiterSyntax
 ) : Splitter {
 
-    constructor(pairs: List<Pair>) : this(SplitterSyntax(pairs))
+    constructor(pairs: List<Pair>) : this(DelimiterSyntax(pairs))
 
     override fun split(request: SplitRequest): String {
         val caretContext = request.context
