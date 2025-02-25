@@ -23,4 +23,11 @@ class DelimiterStack(private val syntax: DelimiterSyntax) {
 
     fun size(): Int = stack.size
 
+    override fun toString(): String {
+        return "DelimiterStack("  +
+                "\n  syntax: $syntax, "  +
+                "\n  stack:  $stack"  +
+                "\n)"
+    }
+
 }

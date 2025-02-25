@@ -27,4 +27,8 @@ class DelimiterSyntax(
         return null
     }
 
+    override fun toString(): String {
+        return supportedPairs.joinToString(separator = ", ")
+    }
+
 }
